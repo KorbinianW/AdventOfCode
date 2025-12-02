@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using static System.IO.StreamReader;
 
 namespace SecretEntrance
 {
@@ -7,8 +6,8 @@ namespace SecretEntrance
     {
         static void Main(string[] args)
         {
-            string[] dialValues = File.ReadAllLines("C:\\Dev\\AdventOfCode\\2025\\Day1\\puzzle_input.txt");
-            //string[] dialValues = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"];
+            //string[] dialValues = File.ReadAllLines("C:\\Dev\\AdventOfCode\\2025\\Day1\\puzzle_input.txt");
+            string[] dialValues = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"];
 
             int currentDialValue = 50;
             int count = 0;
@@ -20,19 +19,45 @@ namespace SecretEntrance
 
                 if (direction == 'R')
                 {
+                    if ((currentDialValue + value) >= 100)
+                    {
+                        count += (currentDialValue + value) / 100;
+                    }
+
                     currentDialValue = (currentDialValue + value) % 100;
                 }
 
                 if (direction == 'L')
                 {
-                    currentDialValue = (currentDialValue - value) % 100;
+                    if ((currentDialValue - value) <= 0)
+                    {
+                        if (currentDialValue != 0)
+                        {
+                            count += 1;
+                        }
+
+                        if (currentDialValue == 0 && ((currentDialValue - value) % 100) == 0)
+                        {
+                            count += -(currentDialValue - value) / 100;
+                            currentDialValue = (-(currentDialValue - value) % 100);
+                        }
+                        else
+                        {
+                            count += -(currentDialValue - value) / 100;
+                            currentDialValue = 100 + ((currentDialValue - value) % 100);
+                        }
+                    }
+                    else
+                    {
+                        currentDialValue = ((currentDialValue - value) % 100);
+                    }
 
                 }
 
-                if (currentDialValue == 0)
-                {
-                    count += 1;
-                }
+                //if (currentDialValue == 0)
+                //{
+                //    count += 1;
+                //}
             }
             Debug.WriteLine(count);
         }
