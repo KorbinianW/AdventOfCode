@@ -4,45 +4,48 @@
     {
         static void Main(string[] args)
         {
-            string[] banks = File.ReadAllLines("C:\\Dev\\AdventOfCode\\2025\\Day3\\Lobby\\input.txt");
-            //string[] banks = ["987654321111111", "811111111111119", "234234234234278", "818181911112111"];
+            //string[] banks = File.ReadAllLines("C:\\Dev\\AdventOfCode\\2025\\Day3\\Lobby\\input.txt");
+            string[] banks = ["987654321111111", "811111111111119", "234234234234278", "818181911112111"];
 
-            int sum = 0;
+            long joltage = 0;
+            int test = 0;
 
             foreach (var bank in banks)
             {
-                int largestBattery = int.Parse(bank[0].ToString());
+                int remainingBatteries = 12;
+                //int i = bank.IndexOf(largestBattery.ToString());
+                string activatedBatteries = string.Empty;
+                int currentArea = 0;
 
-                for (int j = 0; j < bank.Length - 1; j++)
+                for (int i = 0; i < bank.Length; i++)
                 {
-                    var battery = int.Parse(bank[j].ToString());
+                    int largestBattery = int.Parse(bank[i].ToString());
 
-                    if (battery > largestBattery)
+                    if (remainingBatteries >= 0)
                     {
-                        largestBattery = battery;
+                        currentArea = bank.Length - remainingBatteries + 1;
                     }
-                }
-                string jolts = largestBattery.ToString();
-                int secondLargestBattery = 0;
 
-                {
-                    for (int i = bank.IndexOf(largestBattery.ToString()) + 1; i < bank.Length; i++)
+                    for (int j = i; j < currentArea; j++)
                     {
-                        var battery = int.Parse(bank[i].ToString());
+                        int indexOfLargest = j;
 
-                        if (battery > secondLargestBattery)
+                        if (largestBattery < int.Parse(bank[j].ToString()))
                         {
-                            secondLargestBattery = battery;
+                            largestBattery = int.Parse(bank[j].ToString());
+                            indexOfLargest = j;
                         }
+                            i = indexOfLargest;
                     }
+                    activatedBatteries += largestBattery.ToString();
+
+                    largestBattery = 0;
+                    remainingBatteries--;
+
                 }
-                jolts += secondLargestBattery.ToString();
-
-                Console.WriteLine(jolts);
-
-                sum += int.Parse(jolts);
+                joltage += long.Parse(activatedBatteries);
             }
-            Console.WriteLine(sum);
+            Console.WriteLine(joltage);
         }
     }
 }
