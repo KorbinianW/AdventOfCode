@@ -34,7 +34,6 @@
                     continue;
                 }
 
-                // Overlapping or touching: merge
                 if (firstIngredient <= currentLast + 1)
                 {
                     if (lastIngredient > currentLast)
@@ -42,33 +41,11 @@
                 }
                 else
                 {
-                    // Gap → close previous merged interval
                     edibleIngredients += (currentLast - currentFirst + 1);
 
-                    // Start new merged interval
                     currentFirst = firstIngredient;
                     currentLast = lastIngredient;
                 }
-
-                //if (lastIngredient > currentIngredient)
-                //{
-                //    if (currentIngredient == 0)
-                //    {
-                //        edibleIngredients += (lastIngredient - firstIngredient) + 1;
-                //    }
-
-                //    else if (firstIngredient > currentIngredient)
-                //    {
-                //        edibleIngredients += (lastIngredient - firstIngredient) + 1;
-                //    }
-
-                //    else if (firstIngredient < currentIngredient)
-                //    {
-                //        edibleIngredients += (lastIngredient - (currentIngredient + 1)) + 1;
-                //    }
-
-                //    currentIngredient = lastIngredient;
-                //}
             }
             if (currentFirst != -1)
             {
