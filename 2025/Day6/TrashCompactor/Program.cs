@@ -5,7 +5,6 @@
         static void Main(string[] args)
         {
             string[] input = File.ReadAllLines("C:\\Dev\\AdventOfCode\\2025\\Day6\\TrashCompactor\\input.txt");
-            //string[] input = ["123 328 51 64", 45 64  387 23]
 
             string[] delimiters = [" ", "  ", "   ", "    ", "     "];
             string[] row1 = input[0].Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
@@ -14,14 +13,10 @@
             string[] row4 = input[3].Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
             string[] operators = input[4].Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
 
-
             string[] row1WithSpaces = new string[1000];
             string[] row2WithSpaces = new string[1000];
             string[] row3WithSpaces = new string[1000];
             string[] row4WithSpaces = new string[1000];
-
-
-            //string[][] inputWithSpaces = new string[][1000];
 
             long result = 0;
             int x = 0;
@@ -63,29 +58,48 @@
                 x += largest.ToString().Length + 1;
             }
 
-
             for (int k = 0; k < 1000; k++)
             {
-
                 if (operators[k] == "+")
                 {
-                    for (int y = row1WithSpaces[k].Length - 1; y >= 0; y--)
+                    for (int y = 0; y < row1WithSpaces[k].Length; y++)
                     {
-                        //[] values = new int[row1WithSpaces[k].Length];
+                        string value = string.Empty;
+                        value += row1WithSpaces[k][y];
+                        value += row2WithSpaces[k][y];
+                        value += row3WithSpaces[k][y];
+                        value += row4WithSpaces[k][y];
+                        value = String.Join("", value.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
 
-                        result += long.Parse(string.Join(row1WithSpaces[k][y], row2WithSpaces[k][y], row3WithSpaces[k][y], row4WithSpaces[k][y]));
+                        if (value != "" && value != " " && value != "  " && value != "   " && value != "    ")
+                        {
+                            result += long.Parse(value);
+
+                        }
                     }
                 }
 
                 if (operators[k] == "*")
                 {
-                    //result = result + (long.Parse(row1[i]) * long.Parse(row2[i]) * long.Parse(row3[i]) * long.Parse(row4[i]));
+                    long pivot = 1;
+
+                    for (int y = 0; y < row1WithSpaces[k].Length; y++)
+                    {
+                        string value = string.Empty;
+                        value += row1WithSpaces[k][y];
+                        value += row2WithSpaces[k][y];
+                        value += row3WithSpaces[k][y];
+                        value += row4WithSpaces[k][y];
+                        value = String.Join("", value.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries));
+
+                        if (value != "" && value != " " && value != "  " && value != "   " && value != "    ")
+                        {
+                            pivot *= long.Parse(value);
+                        }
+                    }
+                    result += pivot;
                 }
             }
-
-
-
-
             Console.WriteLine(result);
         }
     }
